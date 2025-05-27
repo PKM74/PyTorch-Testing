@@ -1,3 +1,49 @@
 import torch
-torch.get_default_device(device)
-print(device)
+import torch.nn as nn
+import torch.optim as optim
+
+# Print Device in Use
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(f'Using device: {device}')
+print()
+
+class SimpleNN(nn.Module):
+    def __init__(self):
+        super(SimpleNN, self).__init__()
+        self.fc1 = nn.Linear(2, 4)  
+        self.fc2 = nn.Linear(4, 1)  
+
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))  
+        x = self.fc2(x)               
+        return x
+        X_train = torch.tensor([[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]]) 
+        y_train = torch.tensor([[0.0], [1.0], [1.0], [0.0]])
+
+X_train = torch.tensor([[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]]) 
+y_train = torch.tensor([[0.0], [1.0], [1.0], [0.0]])
+
+# Instantiate the Model, Define Loss Function and Optimizer
+model = SimpleNN()  
+criterion = nn.MSELoss()  
+optimizer = optim.SGD(model.parameters(), lr=0.1)
+
+# Model Trainer
+for epoch in range(100):  
+    model.train() 
+
+    # Forward pass
+    outputs = model(X_train)
+    loss = criterion(outputs, y_train)  
+    
+    # Backward pass and optimize
+    optimizer.zero_grad()  
+    loss.backward()  
+    optimizer.step()  
+
+    if (epoch + 1) % 10 == 0:  
+        print(f'Epoch [{epoch + 1}/100], Loss: {loss.item():.4f}')
+
+print("Current GPU memory usage:")
+print(f"Allocated: {torch.cuda.memory_allocated(device) / (1024 ** 2):.2f} MB")
+print(f"Cached: {torch.cuda.memory_reserved(device) / (1024 ** 2):.2f} MB")
