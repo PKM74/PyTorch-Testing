@@ -44,6 +44,13 @@ for epoch in range(100):
     if (epoch + 1) % 10 == 0:  
         print(f'Epoch [{epoch + 1}/100], Loss: {loss.item():.4f}')
 
+# Evaluate The Model
+    model.eval()  
+with torch.no_grad(): 
+    test_data = torch.tensor([[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]])
+    predictions = model(test_data) 
+    print(f'Predictions:\n{predictions}')
+
 print("Current GPU memory usage:")
 print(f"Allocated: {torch.cuda.memory_allocated(device) / (1024 ** 2):.2f} MB")
 print(f"Cached: {torch.cuda.memory_reserved(device) / (1024 ** 2):.2f} MB")
