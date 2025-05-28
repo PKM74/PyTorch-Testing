@@ -17,11 +17,19 @@ class SimpleNN(nn.Module):
         x = torch.relu(self.fc1(x))  
         x = self.fc2(x)               
         return x
-        X_train = torch.tensor([[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]]) 
-        y_train = torch.tensor([[0.0], [1.0], [1.0], [0.0]])
 
-X_train = torch.tensor([[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]]) 
-y_train = torch.tensor([[0.0], [1.0], [1.0], [0.0]])
+# Training Data
+
+X_train = torch.rand(4, 2)
+y_train = torch.rand(4, 1)
+
+print("Training Data:")
+print(X_train)
+print(y_train)
+print()
+
+Old_X_train = torch.tensor([[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]]) 
+Old_y_train = torch.tensor([[0.0], [1.0], [1.0], [0.0]])
 
 # Instantiate the Model, Define Loss Function and Optimizer
 model = SimpleNN()  
@@ -41,14 +49,15 @@ for epoch in range(100):
     loss.backward()  
     optimizer.step()  
 
-    if (epoch + 1) % 10 == 0:  
+    if (epoch + 1) % 5 == 0:  
         print(f'Epoch [{epoch + 1}/100], Loss: {loss.item():.4f}')
-
-# Evaluate The Model
+    
+    # Evaluate The Model
     model.eval()  
 with torch.no_grad(): 
     test_data = torch.tensor([[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0]])
     predictions = model(test_data) 
+    print()
     print(f'Predictions:\n{predictions}')
 
 print("Current GPU memory usage:")
