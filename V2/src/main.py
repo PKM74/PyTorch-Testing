@@ -69,7 +69,7 @@ def train(model, device, train_loader, criterion, optimizer, epoch):
         running_loss += loss.item()
         running_acc += accuracy(outputs, labels)
         if (i + 1) % 200 == 0:
-            print(f'Epoch {epoch}, Batch {i+1}, Loss: {running_loss / 200:.4f}, Accuracy: {running_acc / 200:.4f}')
+            print(f'Epoch {epoch*10}, Batch {i+1}, Loss: {running_loss / 200:.4f}, Accuracy: {running_acc / 200:.4f}')
             running_loss = 0.0
             running_acc = 0.0
 
